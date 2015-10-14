@@ -38,14 +38,19 @@ class NanoTech:
             # --- Game logic should go here
 
             # --- Drawing code should go here
-            vis.Visuals.redLaser.draw_laser(
-                self.screen,
-                self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
-                self.rand_pair(self.visual_set.max_width, self.visual_set.max_height), 5)
 
             # First, clear the screen to white. Don't put other drawing commands
             # above this, or they will be erased with this command.
-            self.screen.fill(self.visual_set.whiteColor)
+            #self.screen.fill(self.visual_set.whiteColor)
+
+            # Draw a laser
+            vis.Visuals.redLaser.draw_laser(
+                self.screen,
+                self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
+                self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
+                5)
+
+            # pygame.draw.line(self.screen, (0, 0), (self.visual_set.max_width, self.visual_set.max_height), width=5)
 
             # --- Go ahead and update the screen with what we've drawn.
             pygame.display.flip()

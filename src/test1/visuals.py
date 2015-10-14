@@ -22,7 +22,7 @@ class Visuals:
 
     whiteColor = (255, 255, 255)
     bgColor = (0, 0, 0)
-    redLaser = Laser(['red', 'red2', 'white'])
+    redLaser = Laser(['red4', 'red', 'white'])
     blueLaser = Laser(['blue', 'blue2', 'white'])
 
     def __init__(self):
