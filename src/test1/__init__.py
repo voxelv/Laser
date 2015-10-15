@@ -2,7 +2,7 @@ import pygame
 import visuals as vis
 import random as rand
 
-__author__ = "Tim Slippy"
+__author__ = "Tim Slippy, Nathan Hale(NrdyN8)"
 
 
 class NanoTech:
