@@ -9,6 +9,7 @@ class NanoTech:
 
     visual_set = vis.Visuals
     screen = pygame.display.set_mode(visual_set.size)
+    saved_lasers = []
 
     def __init__(self):
         pygame.init()
@@ -18,37 +19,85 @@ class NanoTech:
     def rand_pair(max1, max2):
         return rand.randint(0, max1), rand.randint(0, max2)
 
+    def save_laser(self, start, stop, color):
+        self.saved_lasers.append((start, stop, color))
+    ###
+    #   draw_saved_lasers
+    #
+    #   Def: draws lasers saved in array
+    # Testing this location
+    ###
+    def draw_saved_lasers(self, surface):
+        for laser in self.saved_lasers:
+            if laser[2] == "blue":
+                vis.Visuals.blueLaser.draw_laser(surface,laser[0], laser[1], 5)
+            if laser[2] == "red":
+                vis.Visuals.redLaser.draw_laser(surface,laser[0], laser[1], 5)
+
+
+
+
     def run(self):
 
         pygame.display.set_caption("NanoTech")
 
-        # Loop until the user clicks the close button.
         done = False
+        start_mouse_pos = (0,0)
+        lmouse_clicked = False
+        rmouse_clicked = False
 
         # Used to manage how fast the screen updates
         clock = pygame.time.Clock()
 
+        # Loop until the user clicks the close button.
         # -------- Main Program Loop -----------
         while not done:
             # --- Main event loop
+
+            # --- Controls
             for event in pygame.event.get():  # User did something
                 if event.type == pygame.QUIT:  # If user clicked close
                     done = True  # Flag that we are done so we exit this loop
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    #1 = left, 2 = middle
+                    if event.button == 1:
+                        if not lmouse_clicked:
+                            lmouse_clicked = True
+                            start_mouse_pos = pygame.mouse.get_pos()
+                        elif lmouse_clicked:
+                            self.save_laser(start_mouse_pos, pygame.mouse.get_pos(), "red")
+                            lmouse_clicked = False
+
+                    # 3 = right mouse
+                    if event.button == 3:
+                        if not rmouse_clicked:
+                            rmouse_clicked = True
+                            start_mouse_pos = pygame.mouse.get_pos()
+                        elif rmouse_clicked:
+                            self.save_laser(start_mouse_pos, pygame.mouse.get_pos(), "blue")
+                            rmouse_clicked = False
 
             # --- Game logic should go here
 
             # --- Drawing code should go here
-
             # First, clear the screen to white. Don't put other drawing commands
             # above this, or they will be erased with this command.
-            #self.screen.fill(self.visual_set.whiteColor)
+            self.screen.fill(self.visual_set.bgColor)
+
+            if lmouse_clicked:
+                vis.Visuals.redLaser.draw_laser(self.screen, start_mouse_pos, pygame.mouse.get_pos(), 5)
+            if rmouse_clicked:
+                vis.Visuals.blueLaser.draw_laser(self.screen, start_mouse_pos, pygame.mouse.get_pos(), 5)
+
+            self.draw_saved_lasers(self.screen)
+
 
             # Draw a laser
-            vis.Visuals.redLaser.draw_laser(
-                self.screen,
-                self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
-                self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
-                5)
+            #vis.Visuals.redLaser.draw_laser(
+            #    self.screen,
+            #    self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
+            #    self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
+            #    5)
 
             # pygame.draw.line(self.screen, (0, 0), (self.visual_set.max_width, self.visual_set.max_height), width=5)
 

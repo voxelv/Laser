@@ -11,5 +11,14 @@ class Visuals:
     redLaser = lsr.Laser(['red4', 'red', 'white'])
     blueLaser = lsr.Laser(['blue', 'blue2', 'white'])
 
+
+
     def __init__(self):
         pass
+
+
+
+
+
+
+
