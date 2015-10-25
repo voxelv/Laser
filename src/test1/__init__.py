@@ -42,7 +42,8 @@ class NanoTech:
         pygame.display.set_caption("NanoTech")
 
         done = False
-        start_mouse_pos = (0,0)
+        rstart_mouse_pos = (0,0)
+        lstart_mouse_pos = (0,0)
         lmouse_clicked = False
         rmouse_clicked = False
 
@@ -63,18 +64,18 @@ class NanoTech:
                     if event.button == 1:
                         if not lmouse_clicked:
                             lmouse_clicked = True
-                            start_mouse_pos = pygame.mouse.get_pos()
+                            lstart_mouse_pos = pygame.mouse.get_pos()
                         elif lmouse_clicked:
-                            self.save_laser(start_mouse_pos, pygame.mouse.get_pos(), "red")
+                            self.save_laser(lstart_mouse_pos, pygame.mouse.get_pos(), "red")
                             lmouse_clicked = False
 
                     # 3 = right mouse
                     if event.button == 3:
                         if not rmouse_clicked:
                             rmouse_clicked = True
-                            start_mouse_pos = pygame.mouse.get_pos()
+                            rstart_mouse_pos = pygame.mouse.get_pos()
                         elif rmouse_clicked:
-                            self.save_laser(start_mouse_pos, pygame.mouse.get_pos(), "blue")
+                            self.save_laser(rstart_mouse_pos, pygame.mouse.get_pos(), "blue")
                             rmouse_clicked = False
 
             # --- Game logic should go here
@@ -85,9 +86,9 @@ class NanoTech:
             self.screen.fill(self.visual_set.bgColor)
 
             if lmouse_clicked:
-                vis.Visuals.redLaser.draw_laser(self.screen, start_mouse_pos, pygame.mouse.get_pos(), 5)
+                vis.Visuals.redLaser.draw_laser(self.screen, lstart_mouse_pos, pygame.mouse.get_pos(), 5)
             if rmouse_clicked:
-                vis.Visuals.blueLaser.draw_laser(self.screen, start_mouse_pos, pygame.mouse.get_pos(), 5)
+                vis.Visuals.blueLaser.draw_laser(self.screen, rstart_mouse_pos, pygame.mouse.get_pos(), 5)
 
             self.draw_saved_lasers(self.screen)
 
