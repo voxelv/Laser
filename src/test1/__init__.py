@@ -6,7 +6,6 @@ __author__ = "Tim Slippy, Nathan Hale(NrdyN8)"
 
 
 class NanoTech:
-
     visual_set = vis.Visuals
     screen = pygame.display.set_mode(visual_set.size)
     saved_lasers = []
@@ -21,6 +20,7 @@ class NanoTech:
 
     def save_laser(self, start, stop, color):
         self.saved_lasers.append((start, stop, color))
+
     ###
     #   draw_saved_lasers
     #
@@ -30,20 +30,17 @@ class NanoTech:
     def draw_saved_lasers(self, surface):
         for laser in self.saved_lasers:
             if laser[2] == "blue":
-                vis.Visuals.blueLaser.draw_laser(surface,laser[0], laser[1], 5)
+                vis.Visuals.blueLaser.draw_laser(surface, laser[0], laser[1], 5)
             if laser[2] == "red":
-                vis.Visuals.redLaser.draw_laser(surface,laser[0], laser[1], 5)
-
-
-
+                vis.Visuals.redLaser.draw_laser(surface, laser[0], laser[1], 5)
 
     def run(self):
 
         pygame.display.set_caption("NanoTech")
 
         done = False
-        rstart_mouse_pos = (0,0)
-        lstart_mouse_pos = (0,0)
+        rstart_mouse_pos = (0, 0)
+        lstart_mouse_pos = (0, 0)
         lmouse_clicked = False
         rmouse_clicked = False
 
@@ -60,7 +57,7 @@ class NanoTech:
                 if event.type == pygame.QUIT:  # If user clicked close
                     done = True  # Flag that we are done so we exit this loop
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    #1 = left, 2 = middle
+                    # 1 = left, 2 = middle
                     if event.button == 1:
                         if not lmouse_clicked:
                             lmouse_clicked = True
@@ -94,7 +91,7 @@ class NanoTech:
 
 
             # Draw a laser
-            #vis.Visuals.redLaser.draw_laser(
+            # vis.Visuals.redLaser.draw_laser(
             #    self.screen,
             #    self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
             #    self.rand_pair(self.visual_set.max_width, self.visual_set.max_height),
