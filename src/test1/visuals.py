@@ -1,4 +1,4 @@
-import Laser as lsr
+import laser as lsr
 
 class Visuals:
 
