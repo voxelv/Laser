@@ -3,7 +3,7 @@ import space_object
 import visuals as vis
 import random as rand
 
-__author__ = "Tim Slippy, Nathan Hale(NrdyN8)"
+__author__ = "Tim Slippy (VoxelV), Nathan Hale (NrdyN8)"
 
 
 class NanoTech:
