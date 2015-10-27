@@ -1,4 +1,5 @@
 import pygame
+import space_object
 import visuals as vis
 import random as rand
 
@@ -9,6 +10,7 @@ class NanoTech:
     visual_set = vis.Visuals
     screen = pygame.display.set_mode(visual_set.size)
     saved_lasers = []
+    sobjects = []  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     def __init__(self):
         pygame.init()
@@ -17,6 +19,19 @@ class NanoTech:
     @staticmethod
     def rand_pair(max1, max2):
         return rand.randint(0, max1), rand.randint(0, max2)
+
+    # TEMPORARY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    def draw_rand_so(self):
+        if rand.randint(0, 1000) < 20:
+            x = space_object.ConnectibleSpaceObject(self.rand_pair(self.visual_set.max_width, self.visual_set.max_height))
+            for obj in self.sobjects:
+                if x.in_range(obj.position, 2):
+                    x.add_connection(obj.position)
+            self.sobjects.append(x)
+        for so in self.sobjects:
+            so.draw_connections(self)
+        for so in self.sobjects:
+            so.render(self)
 
     def save_laser(self, start, stop, color):
         self.saved_lasers.append((start, stop, color))
@@ -88,7 +103,7 @@ class NanoTech:
                 vis.Visuals.blueLaser.draw_laser(self.screen, rstart_mouse_pos, pygame.mouse.get_pos(), 5)
 
             self.draw_saved_lasers(self.screen)
-
+            self.draw_rand_so()
 
             # Draw a laser
             # vis.Visuals.redLaser.draw_laser(
