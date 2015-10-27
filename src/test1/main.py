@@ -14,20 +14,29 @@ class NanoTech:
 
     def __init__(self):
         pygame.init()
-        pass
 
     @staticmethod
     def rand_pair(max1, max2):
         return rand.randint(0, max1), rand.randint(0, max2)
 
     # TEMPORARY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    def draw_rand_so(self):
-        if rand.randint(0, 1000) < 20:
-            x = space_object.ConnectibleSpaceObject(self.rand_pair(self.visual_set.max_width, self.visual_set.max_height))
+    def create_rand_so(self):
+        if rand.randint(0, 1000) < 500:
+            pos = self.rand_pair(self.visual_set.max_width, self.visual_set.max_height)
             for obj in self.sobjects:
-                if x.in_range(obj.position, 2):
+                if obj.in_range(pos, 20):
+                    return
+
+            x = space_object.ConnectibleSpaceObject(pos)
+            for obj in self.sobjects:
+                if x.in_range(obj.position, 50):
                     x.add_connection(obj.position)
+                print "{}".format(obj.position)
+                print "    {}".format(obj.connections)
+                print "\n\n"
             self.sobjects.append(x)
+
+    def draw_sobjects(self):
         for so in self.sobjects:
             so.draw_connections(self)
         for so in self.sobjects:
@@ -90,6 +99,8 @@ class NanoTech:
                             self.save_laser(rstart_mouse_pos, pygame.mouse.get_pos(), "blue")
                             rmouse_clicked = False
 
+            self.create_rand_so()  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
             # --- Game logic should go here
 
             # --- Drawing code should go here
@@ -103,7 +114,7 @@ class NanoTech:
                 vis.Visuals.blueLaser.draw_laser(self.screen, rstart_mouse_pos, pygame.mouse.get_pos(), 5)
 
             self.draw_saved_lasers(self.screen)
-            self.draw_rand_so()
+            self.draw_sobjects()  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             # Draw a laser
             # vis.Visuals.redLaser.draw_laser(

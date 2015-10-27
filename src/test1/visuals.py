@@ -2,8 +2,8 @@ import laser as lsr
 
 class Visuals:
 
-    max_width = 700
-    max_height = 500
+    max_width = 1900
+    max_height = 1000
     size = (max_width, max_height)
 
     whiteColor = (255, 255, 255)
