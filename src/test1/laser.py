@@ -3,7 +3,7 @@ import pygame
 
 class Laser:
     def __init__(self, colors=('red', 'red2', 'white')):
-        self.glow = [pygame.color.THECOLORS[color] for color in colors]
+        self.glow = [pygame.color.Color(color) for color in colors]
 
     def draw_laser(self, surface, start, stop, width):
         for color in self.glow:

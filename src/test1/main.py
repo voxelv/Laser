@@ -1,5 +1,6 @@
 import pygame
 import space_object
+import laser
 import visuals as vis
 import random as rand
 
@@ -21,26 +22,27 @@ class NanoTech:
 
     # TEMPORARY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def create_rand_so(self):
-        if rand.randint(0, 1000) < 500:
+        for i in range(200):
+        #if rand.randint(0, 1000) < 500:
             pos = self.rand_pair(self.visual_set.max_width, self.visual_set.max_height)
-            for obj in self.sobjects:
-                if obj.in_range(pos, 20):
-                    return
+            # for obj in self.sobjects:
+            #     if obj.in_range(pos, 20):
+            #         return
 
-            x = space_object.ConnectibleSpaceObject(pos)
-            for obj in self.sobjects:
-                if x.in_range(obj.position, 50):
-                    x.add_connection(obj.position)
-                print "{}".format(obj.position)
-                print "    {}".format(obj.connections)
-                print "\n\n"
+            x = space_object.ConnectibleSpaceObject(self, pos, 'red' if rand.randint(0, 1) == 1 else 'blue',
+                                                    laser.Laser(['forestgreen', 'limegreen', 'palegreen']))
             self.sobjects.append(x)
 
     def draw_sobjects(self):
         for so in self.sobjects:
-            so.draw_connections(self)
+            if rand.randint(0, 1000) < 20:
+                so.rand_move(15)
         for so in self.sobjects:
-            so.render(self)
+            so.recalculate_connections(20, 50)
+        for so in self.sobjects:
+            so.draw_connections()
+        for so in self.sobjects:
+            so.render()
 
     def save_laser(self, start, stop, color):
         self.saved_lasers.append((start, stop, color))
@@ -71,6 +73,8 @@ class NanoTech:
         # Used to manage how fast the screen updates
         clock = pygame.time.Clock()
 
+        self.create_rand_so()  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
         # Loop until the user clicks the close button.
         # -------- Main Program Loop -----------
         while not done:
@@ -98,8 +102,6 @@ class NanoTech:
                         elif rmouse_clicked:
                             self.save_laser(rstart_mouse_pos, pygame.mouse.get_pos(), "blue")
                             rmouse_clicked = False
-
-            self.create_rand_so()  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             # --- Game logic should go here
 
