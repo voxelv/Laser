@@ -1,5 +1,6 @@
 import laser as lsr
 
+
 class Visuals:
 
     max_width = 700

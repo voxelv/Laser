@@ -22,23 +22,23 @@ class NanoTech:
 
     # TEMPORARY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def create_rand_so(self):
-        for i in range(200):
+        for i in range(100):
         #if rand.randint(0, 1000) < 500:
             pos = self.rand_pair(self.visual_set.max_width, self.visual_set.max_height)
             # for obj in self.sobjects:
             #     if obj.in_range(pos, 20):
             #         return
-
-            x = space_object.ConnectibleSpaceObject(self, pos, 'red' if rand.randint(0, 1) == 1 else 'blue',
-                                                    laser.Laser(['forestgreen', 'limegreen', 'palegreen']))
+            r = rand.randint(0, 1)
+            x = space_object.ConnectibleSpaceObject(self, pos, 'red' if r == 1 else 'blue',
+                                                    self.visual_set.redLaser if r == 1 else self.visual_set.blueLaser)
             self.sobjects.append(x)
 
     def draw_sobjects(self):
         for so in self.sobjects:
-            if rand.randint(0, 1000) < 20:
-                so.rand_move(15)
+            if rand.randint(0, 1000) < 950:
+                so.rand_move(5)
         for so in self.sobjects:
-            so.recalculate_connections(20, 50)
+            so.recalculate_connections(70, 100)
         for so in self.sobjects:
             so.draw_connections()
         for so in self.sobjects:

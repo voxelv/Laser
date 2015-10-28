@@ -58,9 +58,10 @@ class ConnectibleSpaceObject(SpaceObject):
             self.position[1] = self.game.visual_set.max_height
 
         for obj in self.game.sobjects:
-            if self.in_range(obj.position, 20) and self.color_name != obj.color_name:
+            if self.in_range(obj.position, 40) and self.color_name != obj.color_name:
                 self.color_name = obj.color_name
                 self.color = pygame.color.Color(obj.color_name)
+                self.laser = obj.laser
 
 
     def add_connection(self, pos):
