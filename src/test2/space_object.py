@@ -29,46 +29,49 @@ class ConnectibleSpaceObject(SpaceObject):
 
     def __init__(self, game, pos, color, laser_type):
         SpaceObject.__init__(self, game, pos, color)
+        self.dir = rand.randint(0, 3)
         self.resource_buffer = 0
         self.connections = []
         self.laser = laser_type
 
-    def rand_move(self, dist):
-        r = rand.randint(0, 3)
-
-        if r == 0:
+    def move(self, dist):
+        # 0 = RIGHT
+        # 1 = LEFT
+        # 2 = DOWN
+        # 3 = UP
+        if self.dir == 0:
             self.position[0] += dist
-        elif r == 1:
+        elif self.dir == 1:
             self.position[0] -= dist
-        elif r == 2:
+        elif self.dir == 2:
             self.position[1] += dist
-        elif r == 3:
+        elif self.dir == 3:
             self.position[1] -= dist
 
         if self.position[0] > self.game.visual_set.max_width:
-            self.position[0] = 0
+            self.dir = 1
 
         if self.position[0] < 0:
-            self.position[0] = self.game.visual_set.max_width
+            self.dir = 0
 
         if self.position[1] > self.game.visual_set.max_height:
-            self.position[1] = 0
+            self.dir = 3
 
         if self.position[1] < 0:
-            self.position[1] = self.game.visual_set.max_height
+            self.dir = 2
 
-        for obj in self.game.sobjects:
-            if self.in_range(obj.position, 40) and self.color_name != obj.color_name:
-                self.color_name = obj.color_name
-                self.color = pygame.color.Color(obj.color_name)
-                self.laser = obj.laser
-
+        # for obj in self.game.sobjects:
+        #     if self.in_range(obj.position, 50) and self.color_name != obj.color_name:
+        #         self.color_name = obj.color_name
+        #         self.color = pygame.color.Color(obj.color_name)
+        #         self.laser = obj.laser
 
     def add_connection(self, pos):
         self.connections.append(pos)
 
     def recalculate_connections(self, min_range, max_range):
         self.connections = []
+        counter = 0
         for obj in self.game.sobjects:
             if self.in_range(obj.position, min_range):
                 continue
@@ -76,11 +79,14 @@ class ConnectibleSpaceObject(SpaceObject):
                 continue
             if self.in_range(obj.position, max_range):
                 self.add_connection(obj.position)
+                counter += 1
+                if counter == 3:
+                    break
 
     def draw_connections(self):
         for conn in self.connections:
             # Draw each connection laser
-            self.laser.draw_laser(self.game.screen, self.position, conn, 5)
+            self.laser.draw_laser(self.game.screen, self.position, conn, 15)
 
     def render(self):
-        pygame.draw.circle(self.game.screen, self.color, self.position, 5, 0)
+        pygame.draw.circle(self.game.screen, self.color, self.position, 10, 0)

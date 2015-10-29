@@ -10,6 +10,6 @@ class Laser:
             if width <= 0:
                 break
             pygame.draw.line(surface, color, start, stop, width)
-            width -= 2
+            width -= 5
 
 

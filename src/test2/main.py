@@ -15,6 +15,11 @@ class NanoTech:
 
     def __init__(self):
         pygame.init()
+        self.laser_types = [['red', self.visual_set.redLaser],
+                            ['blue', self.visual_set.blueLaser],
+                            ['green', self.visual_set.greenLaser],
+                            ['yellow', self.visual_set.yellowLaser]
+                            ]
 
     @staticmethod
     def rand_pair(max1, max2):
@@ -22,53 +27,34 @@ class NanoTech:
 
     # TEMPORARY <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def create_rand_so(self):
-        for i in range(100):
-        #if rand.randint(0, 1000) < 500:
+        for i in range(12):
+            # if rand.randint(0, 1000) < 500:
             pos = self.rand_pair(self.visual_set.max_width, self.visual_set.max_height)
             # for obj in self.sobjects:
             #     if obj.in_range(pos, 20):
             #         return
             r = rand.randint(0, 1)
-            x = space_object.ConnectibleSpaceObject(self, pos, 'red' if r == 1 else 'blue',
-                                                    self.visual_set.redLaser if r == 1 else self.visual_set.blueLaser)
+            #r = rand.randint(0, len(self.laser_types) - 1)
+            x = space_object.ConnectibleSpaceObject(self, pos, self.laser_types[r][0], self.laser_types[r][1])
             self.sobjects.append(x)
 
     def draw_sobjects(self):
         for so in self.sobjects:
             if rand.randint(0, 1000) < 950:
-                so.rand_move(5)
+                so.move(0)
+
         for so in self.sobjects:
-            so.recalculate_connections(70, 100)
+            so.recalculate_connections(0, 500)
         for so in self.sobjects:
             so.draw_connections()
         for so in self.sobjects:
             so.render()
-
-    def save_laser(self, start, stop, color):
-        self.saved_lasers.append((start, stop, color))
-
-    ###
-    #   draw_saved_lasers
-    #
-    #   Def: draws lasers saved in array
-    # Testing this location
-    ###
-    def draw_saved_lasers(self, surface):
-        for laser in self.saved_lasers:
-            if laser[2] == "blue":
-                vis.Visuals.blueLaser.draw_laser(surface, laser[0], laser[1], 5)
-            if laser[2] == "red":
-                vis.Visuals.redLaser.draw_laser(surface, laser[0], laser[1], 5)
 
     def run(self):
 
         pygame.display.set_caption("NanoTech")
 
         done = False
-        rstart_mouse_pos = (0, 0)
-        lstart_mouse_pos = (0, 0)
-        lmouse_clicked = False
-        rmouse_clicked = False
 
         # Used to manage how fast the screen updates
         clock = pygame.time.Clock()
@@ -85,23 +71,21 @@ class NanoTech:
                 if event.type == pygame.QUIT:  # If user clicked close
                     done = True  # Flag that we are done so we exit this loop
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    # 1 = left, 2 = middle
+                    # 1 = left
                     if event.button == 1:
-                        if not lmouse_clicked:
-                            lmouse_clicked = True
-                            lstart_mouse_pos = pygame.mouse.get_pos()
-                        elif lmouse_clicked:
-                            self.save_laser(lstart_mouse_pos, pygame.mouse.get_pos(), "red")
-                            lmouse_clicked = False
+                        x = space_object.ConnectibleSpaceObject(self, pygame.mouse.get_pos(), self.laser_types[0][0], self.laser_types[0][1])
+                        self.sobjects.append(x)
+
+                    # 2 = middle
+                    if event.button == 2:
+                        self.sobjects = []
+                        #self.create_rand_so()
 
                     # 3 = right mouse
                     if event.button == 3:
-                        if not rmouse_clicked:
-                            rmouse_clicked = True
-                            rstart_mouse_pos = pygame.mouse.get_pos()
-                        elif rmouse_clicked:
-                            self.save_laser(rstart_mouse_pos, pygame.mouse.get_pos(), "blue")
-                            rmouse_clicked = False
+                        x = space_object.ConnectibleSpaceObject(self, pygame.mouse.get_pos(), self.laser_types[1][0], self.laser_types[1][1])
+                        self.sobjects.append(x)
+
 
             # --- Game logic should go here
 
@@ -110,12 +94,6 @@ class NanoTech:
             # above this, or they will be erased with this command.
             self.screen.fill(self.visual_set.bgColor)
 
-            if lmouse_clicked:
-                vis.Visuals.redLaser.draw_laser(self.screen, lstart_mouse_pos, pygame.mouse.get_pos(), 5)
-            if rmouse_clicked:
-                vis.Visuals.blueLaser.draw_laser(self.screen, rstart_mouse_pos, pygame.mouse.get_pos(), 5)
-
-            self.draw_saved_lasers(self.screen)
             self.draw_sobjects()  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             # Draw a laser
