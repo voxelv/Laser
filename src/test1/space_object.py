@@ -33,7 +33,7 @@ class ConnectibleSpaceObject(SpaceObject):
         self.connections = []
         self.laser = laser_type
 
-    def rand_move(self, dist):
+    def move(self, dist):
         r = rand.randint(0, 3)
 
         if r == 0:
