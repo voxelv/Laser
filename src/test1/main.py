@@ -1,5 +1,4 @@
 import pygame
-import space_object
 import visuals as vis
 import random as rand
 
