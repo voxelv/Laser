@@ -36,7 +36,7 @@ class NanoTech:
     def draw_sobjects(self):
         for so in self.sobjects:
             if rand.randint(0, 1000) < 50:
-                so.rand_move(5)
+                so.move(5)
         for so in self.sobjects:
             so.recalculate_connections(0, 100)
         for so in self.sobjects:
