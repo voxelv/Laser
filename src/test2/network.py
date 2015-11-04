@@ -1,3 +1,5 @@
+import pygame
+
 __author__ = 'Tim'
 
 
@@ -26,14 +28,19 @@ class NetworkConnection:
 class NetworkObject:
     def __init__(self):
         self.ID = "UPDATE ID CODE WITH REGISTRY"
-        self.slots = []
+        self.slots = [Slot("center", "control", (0, 0), "inout")]
 
-    def add_slot(self, slot):
-        self.slots.append(slot)
+    def add_slot(self, slot_name, slot_type, rel_pos, flow_dir):
+        self.slots.append(Slot(slot_name, slot_type, rel_pos, flow_dir))
+
+    def render(self, surface):
+        pass
+        """ ADD STUFF HERE!!! """
 
 
 class Slot:
-    def __init__(self, slot_type, rel_pos, flow_dir):
+    def __init__(self, slot_name, slot_type, rel_pos, flow_dir):
+        self.name = slot_name
         self.type = slot_type
         self.position = rel_pos
         self.dir = flow_dir
