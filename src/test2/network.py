@@ -4,7 +4,7 @@ __author__ = 'Tim'
 
 
 class Network:
-    def __init__(self, net_type):
+    def __init__(self, net_type='control'):
         self.objects = NetworkObjectContainer()
         self.connections = []
         self.net_type = net_type
